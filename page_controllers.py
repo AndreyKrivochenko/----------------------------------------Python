@@ -6,7 +6,7 @@ class Template:
     context = {}
 
     def __call__(self, request):
-        return '200 OK', bytes(render(self.template, object_list=request, context=self.context), encoding='utf-8')
+        return '200 OK', bytes(render(self.template, secret=request['secret'], context=self.context), encoding='utf-8')
 
 
 class IndexPage(Template):

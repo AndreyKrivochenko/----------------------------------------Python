@@ -10,6 +10,8 @@ class Application:
 
     def __call__(self, environ, start_response):
         path = environ['PATH_INFO']
+        if len(path) > 1 and path[-1] == '/':
+            path = path[:-1]
         if path in self.routes:
             controller = self.routes[path]
         else:
