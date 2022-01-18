@@ -1,13 +1,26 @@
-class IndexPage:
-    def __call__(self, request):
-        print(request)
-        return '200 OK', b'<h1>Hello from WSGI!</h1>'
+from templator import render
 
 
-class AboutPage:
+class Template:
+    template = ''
+    context = {}
+
     def __call__(self, request):
-        print(request)
-        return '200 OK', b'About page'
+        return '200 OK', bytes(render(self.template, object_list=request, context=self.context), encoding='utf-8')
+
+
+class IndexPage(Template):
+    template = 'templates/index.html'
+    context = {
+        'title': 'Index page'
+    }
+
+
+class AboutPage(Template):
+    template = 'templates/about.html'
+    context = {
+        'title': 'About page'
+    }
 
 
 class NotFoundPage:
