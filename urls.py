@@ -1,4 +1,4 @@
-from page_controllers import IndexPage, AboutPage
+from pages import IndexPage, AboutPage
 
 routes = {
     '/': IndexPage(),
