@@ -1,6 +1,6 @@
-def secret_front(request):
-    request['secret'] = 'some secret'
+class FrontController:
+    data = {}
 
-    
-def other_front(request):
-    request['key'] = 'value'
+    def __call__(self, request):
+        for key in self.data:
+            request[key] = self.data[key]

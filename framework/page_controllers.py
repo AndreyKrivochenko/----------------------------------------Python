@@ -11,5 +11,5 @@ class Template:
 
 
 class NotFoundPage:
-    def __call__(self, request):
+    def __call__(self):
         return '404 Not Found', b'404 page not found'
