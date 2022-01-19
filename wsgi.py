@@ -1,4 +1,4 @@
-from fronts import OtherFront, SecretFront
+from framework.front_controllers import OtherFront, SecretFront
 from urls import routes
 from framework.application import Application
 
