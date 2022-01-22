@@ -1,4 +1,6 @@
-from framework.page_controllers import NotFoundPage
+from .request import Request
+from .page_controllers import NotFoundPage
+
 
 class Application:
     def __init__(self, routes, fronts):
@@ -13,9 +15,9 @@ class Application:
             controller = self.routes[path]
         else:
             controller = NotFoundPage()
-        request = {}
+        req = Request(environ)
         for front in self.fronts:
-            front(request)
-        code, body = controller(request)
+            front(req.request)
+        code, body = controller(req)
         start_response(code, [('Content-Type', 'text/html')])
         return [body]
