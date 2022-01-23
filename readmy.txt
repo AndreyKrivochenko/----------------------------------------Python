@@ -1,1 +1,2 @@
-Для запуска используем: gunicorn wsgi:app_object
+Для запуска в Linux используем: gunicorn wsgi:app_object
+Для запуска в Windows использовал модуль waitress, команда: waitress-serve --listen=*:8000 wsgi:app_object

@@ -1,3 +1,5 @@
+from urllib.parse import unquote_plus
+
 class Request:
 
     def __init__(self, env, request=None):
@@ -18,7 +20,7 @@ class Request:
             content_length = int(content_length_data) if content_length_data else 0
             data = self.env['wsgi.input'].read(content_length) if content_length > 0 else b''
             if data:
-                data_str = data.decode(encoding='utf-8')
+                data_str = unquote_plus(data.decode(encoding='utf-8'))
                 self.parse_input_data(data_str, self.method)
         else:
             print(f'Мы обрабатываем только GET и POST запросы, ваш запрос - {self.method}')
