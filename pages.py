@@ -2,15 +2,16 @@ from framework import Template
 
 
 class IndexPage(Template):
-    template = 'templates/index.html'
+    template = 'index.html'
 
     def get_context(self):
-        self.context.update({'title': 'Index page'})
+        super(IndexPage, self).get_context()
+        self.context.update([('title', 'Index page')])
         return self.context
 
 
 class AboutPage(Template):
-    template = 'templates/about.html'
+    template = 'about.html'
 
     def get_context(self):
         self.context.update({'title': 'About page'})
@@ -18,7 +19,7 @@ class AboutPage(Template):
 
 
 class ContactPage(Template):
-    template = 'templates/contact.html'
+    template = 'contact.html'
 
     def get_context(self):
         self.context.update({'title': 'Contact page'})

@@ -1,5 +1,6 @@
 from urllib.parse import unquote_plus
 
+
 class Request:
 
     def __init__(self, env, request=None):
@@ -11,6 +12,7 @@ class Request:
         self.fill_request()
 
     def fill_request(self):
+        self.request['path'] = self.env.get('PATH_INFO')
         if self.method == 'GET':
             query_string = self.env.get('QUERY_STRING')
             if query_string:
