@@ -8,27 +8,25 @@ class Template:
 
     def post(self, request):
         if request.request.get('POST'):
-            # self.context.update(request.request.get('POST'))
+            self.context.update(request.request.get('POST'))
             return self.context
 
     def get(self, request):
         if request.request.get('GET'):
-            # self.context.update(request.request.get('GET'))
+            self.context.update(request.request.get('GET'))
             return self.context
 
-    def get_context(self):
-        self.context.update({'request': self.request})
+    def get_context(self, request):
         return self.context
 
     def __call__(self, request, **kwargs):
-        self.request = request.request
         if request.method == 'POST':
             self.post(request)
         elif request.method == 'GET':
             self.get(request)
-        self.get_context()
+        self.get_context(request)
         return '200 OK', bytes(
-            render(self.template, secret=request.request['secret'], key=request.request['key'], context=self.context),
+            render(self.template, request=request.request, context=self.context),
             encoding='utf-8'
         )
 

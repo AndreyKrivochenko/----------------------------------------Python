@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ context.title }}
+{% endblock title %}
+
+{% block content %}
+    <div class="w-50 mx-auto mt-5">
+        <h2 class="mb-5">Спасибо за ваше сообщение</h2>
+        <dl class="row">
+            <dt class="col-sm-3">Тема:</dt>
+            <dd class="col-sm-9"><p>{{ request.POST.subject }}</p></dd>
+
+            <dt class="col-sm-3">E-mail:</dt>
+            <dd class="col-sm-9"><p>{{ request.POST.email }}</p></dd>
+
+            <dt class="col-sm-3">Сообщение:</dt>
+            <dd class="col-sm-9"><p>{{ request.POST.message }}</p></dd>
+        </dl>
+    </div>
+{% endblock content %}

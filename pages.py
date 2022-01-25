@@ -1,31 +1,49 @@
+from common import MAIN_MENU
 from framework import Template
 
 
-class IndexPage(Template):
+class AllPages(Template):
+    def get_context(self, request):
+        super().get_context(request)
+        self.context.update({
+            'main_menu': MAIN_MENU
+        })
+        return self.context
+
+
+class IndexPage(AllPages):
     template = 'index.html'
 
-    def get_context(self):
-        super(IndexPage, self).get_context()
-        self.context.update([('title', 'Index page')])
+    def get_context(self, request):
+        super().get_context(request)
+        self.context.update({
+            'title': 'Index page'
+        })
         return self.context
 
 
-class AboutPage(Template):
+class AboutPage(AllPages):
     template = 'about.html'
 
-    def get_context(self):
-        self.context.update({'title': 'About page'})
+    def get_context(self, request):
+        super().get_context(request)
+        self.context.update({
+            'title': 'About page'
+        })
         return self.context
 
 
-class ContactPage(Template):
-    template = 'contact.html'
+class ContactPage(AllPages):
 
-    def get_context(self):
-        self.context.update({'title': 'Contact page'})
+    def get_context(self, request):
+        super().get_context(request)
+        self.context.update({
+            'title': 'Contact page'
+        })
         return self.context
+
+    def get(self, request):
+        self.template = 'contact.html'
 
     def post(self, request):
-        form_post = super().post(request)
-        print(f'Ваше сообщение:\nТема: {form_post["subject"]}\ne-mail: {form_post["email"]}\nСообщение:'
-              f' {form_post["message"]}')
+        self.template = 'contact_final.html'

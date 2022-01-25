@@ -6,6 +6,6 @@
 
 {% block content %}
     <h1>Hello from WSGI!</h1>
-    <p>Secret: {{ secret }}</p>
-    <p>Key: {{ key }}</p>
+    <p>Secret: {{ request.secret }}</p>
+    <p>Key: {{ request.key }}</p>
 {% endblock content %}

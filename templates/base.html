@@ -10,6 +10,7 @@
 </head>
 <body>
 <div class="container">
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Framework</a>
@@ -19,20 +20,17 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contact">Contact</a>
-                    </li>
+                    {% for menu in context.main_menu %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == menu.1 %}
+                                active
+                            {% endif %}" href="{{ menu.1 }}">{{ menu.0 }}</a>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
     </nav>
-{{ context }}
     {% block content %}
 
     {% endblock content %}
