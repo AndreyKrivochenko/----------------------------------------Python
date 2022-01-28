@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ context.title }}
+{% endblock title %}
+
+{% block content %}
+    <h1>Courses page</h1>
+    {% for category in context.courses %}
+        {{ category }}
+        {% for course in context.courses[category] %}
+            {{ course }}
+        {% endfor %}
+    {% endfor %}
+{% endblock content %}

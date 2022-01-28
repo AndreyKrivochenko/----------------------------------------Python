@@ -22,6 +22,24 @@ class IndexPage(AllPages):
         return self.context
 
 
+class CoursesPage(AllPages):
+    template = 'courses.html'
+
+    def get_context(self, request):
+        super().get_context(request)
+        courses = {
+            'Python': {
+                'Python for beginner': {},
+                'Python for profy': {}
+            }
+        }
+        self.context.update({
+            'title': 'Courses page',
+            'courses': courses
+        })
+        return self.context
+
+
 class AboutPage(AllPages):
     template = 'about.html'
 
