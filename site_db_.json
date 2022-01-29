@@ -3,25 +3,22 @@
     "students": [],
     "courses": [
         {
+            "type": "interactive",
             "category": "Python",
             "name": "Python for beginner",
-            "description": "Lorem ipsum",
-            "url": "",
-            "type": "interactive"
+            "description": "Lorem ipsum"
         },
         {
+            "type": "interactive",
             "category": "Python",
             "name": "Python for profy",
-            "description": "Lorem ipsum",
-            "url": "",
-            "type": "interactive"
+            "description": "Lorem ipsum"
         },
         {
+            "type": "interactive",
             "category": "Java",
             "name": "Java for beginner",
-            "description": "Lorem ipsum",
-            "url": "",
-            "type": "interactive"
+            "description": "Lorem ipsum"
         }
     ],
     "categories_courses": [

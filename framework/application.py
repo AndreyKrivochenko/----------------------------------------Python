@@ -22,10 +22,10 @@ class Application:
                     for i, value in enumerate(item):
                         if value == path[i]:
                             _path = f'{_path}{value}/'
-                        elif value.find('slug') and path[i].isalpha():
+                        elif value.find('slug') and path[i].replace('_', '').isalpha():
                             _path = f'{_path}{value}/'
                             _value = value.lstrip('<').rstrip('>').split(':')
-                            request.request[_value[1]] = path[i]
+                            request.request[_value[1]] = path[i].replace('_', ' ')
         elif len(path[0]) > 1:
             _path = f'/{path[0]}/'
         else:

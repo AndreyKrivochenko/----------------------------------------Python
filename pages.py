@@ -1,7 +1,7 @@
 import json
 from common import MAIN_MENU
 from framework import Template
-from models import TrainingSite
+from models import TrainingSite, Course
 
 with open('site_db.json', 'r', encoding='utf-8') as f:
     site = TrainingSite(json.load(f))
@@ -32,34 +32,24 @@ class CoursesPage(AllPages):
 
     def get_context(self, request):
         super().get_context(request)
-        with open('courses.json', 'r', encoding='utf-8') as f:
-            courses = json.load(f)
-        # print(site.categories_courses)
         self.context.update({
             'title': 'Courses page',
-            # 'categories_courses': site.categories_courses
-            'courses': courses
+            'categories_courses': site.categories_courses,
+            'courses': site.courses
         })
         return self.context
 
     def post(self, request):
         super().post(request)
         new_category = request.request.get('POST').get('new-category')
-        new_course = request.request.get('POST').get('new-course')
         if new_category:
-            with open('courses.json', 'r', encoding='utf-8') as f:
-                courses = json.load(f)
-            if not courses.get(new_category):
-                courses[new_category] = {}
-                with open('courses.json', 'w', encoding='utf-8') as f:
-                    json.dump(courses, f, indent=4)
-        if new_course:
-            with open('courses.json', 'r', encoding='utf-8') as f:
-                courses = json.load(f)
-            if not courses[request.request.get('course')].get(new_course):
-                courses[request.request.get('course')][new_course] = {}
-                with open('courses.json', 'w', encoding='utf-8') as f:
-                    json.dump(courses, f, indent=4)
+            site.create_category(new_category)
+        course = request.request['POST'].get('course')
+        if course:
+            for course_ in site.courses:
+                if course == str(course_):
+                    course = course_
+
 
 
 class AboutPage(AllPages):
