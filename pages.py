@@ -1,3 +1,4 @@
+import json
 from common import MAIN_MENU
 from framework import Template
 
@@ -27,17 +28,25 @@ class CoursesPage(AllPages):
 
     def get_context(self, request):
         super().get_context(request)
-        courses = {
-            'Python': {
-                'Python for beginner': {},
-                'Python for profy': {}
-            }
-        }
+        with open('courses.json', 'r', encoding='utf-8') as f:
+            courses = json.load(f)
         self.context.update({
             'title': 'Courses page',
             'courses': courses
         })
         return self.context
+
+    def post(self, request):
+        super().post(request)
+        new_category = request.request.get('POST').get('new-category')
+        if new_category:
+            with open('courses.json', 'r', encoding='utf-8') as f:
+                courses = json.load(f)
+            if not courses.get(new_category):
+                courses[new_category] = {}
+                with open('courses.json', 'w', encoding='utf-8') as f:
+                    json.dump(courses, f, indent=4)
+
 
 
 class AboutPage(AllPages):

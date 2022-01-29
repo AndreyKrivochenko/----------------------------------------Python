@@ -5,11 +5,31 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>Courses page</h1>
-    {% for category in context.courses %}
+    <div class="container d-flex mt-3">
+        <div class="border-end" style="width: 200px;">
+            <div class="border-bottom">
+                <p class="text-center">Categories</p>
+            </div>
+            <div class="border-bottom">
+                <nav class="nav flex-column">
+                    {% for category in context.courses %}                
+                        <a class="nav-link" href="#">{{ category }}</a>
+                    {% endfor %}
+                </nav>
+            </div>
+            <form action="" method="post" class="mt-3 text-center">
+                <div class="mb-3">
+                    <label for="createCategory" class="form-label">Add category</label>
+                    <input type="text" class="form-control w-75 mx-auto" id="createCategory" name="new-category">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+    <!-- {% for category in context.courses %}
         {{ category }}
         {% for course in context.courses[category] %}
             {{ course }}
         {% endfor %}
-    {% endfor %}
+    {% endfor %} -->
 {% endblock content %}
