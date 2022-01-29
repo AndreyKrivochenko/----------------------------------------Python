@@ -1,9 +1,9 @@
-from pages import IndexPage, AboutPage, ContactPage, CoursesPage, CoursesDetailPage
+from pages import IndexPage, AboutPage, ContactPage, CoursesPage
 
 routes = {
     '/': IndexPage(),
     '/courses/': CoursesPage(),
-    '/courses/<slug:course>/': CoursesDetailPage(),
+    '/courses/<slug:course>/': CoursesPage(),
     '/about/': AboutPage(),
     '/contact/': ContactPage()
 }

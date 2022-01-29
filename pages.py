@@ -39,6 +39,7 @@ class CoursesPage(AllPages):
     def post(self, request):
         super().post(request)
         new_category = request.request.get('POST').get('new-category')
+        new_course = request.request.get('POST').get('new-course')
         if new_category:
             with open('courses.json', 'r', encoding='utf-8') as f:
                 courses = json.load(f)
@@ -46,10 +47,13 @@ class CoursesPage(AllPages):
                 courses[new_category] = {}
                 with open('courses.json', 'w', encoding='utf-8') as f:
                     json.dump(courses, f, indent=4)
-
-
-class CoursesDetailPage(AllPages):
-    pass
+        if new_course:
+            with open('courses.json', 'r', encoding='utf-8') as f:
+                courses = json.load(f)
+            if not courses[request.request.get('course')].get(new_course):
+                courses[request.request.get('course')][new_course] = {}
+                with open('courses.json', 'w', encoding='utf-8') as f:
+                    json.dump(courses, f, indent=4)
 
 
 class AboutPage(AllPages):
