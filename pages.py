@@ -1,6 +1,10 @@
 import json
 from common import MAIN_MENU
 from framework import Template
+from models import TrainingSite
+
+with open('site_db.json', 'r', encoding='utf-8') as f:
+    site = TrainingSite(json.load(f))
 
 
 class AllPages(Template):
@@ -30,8 +34,10 @@ class CoursesPage(AllPages):
         super().get_context(request)
         with open('courses.json', 'r', encoding='utf-8') as f:
             courses = json.load(f)
+        # print(site.categories_courses)
         self.context.update({
             'title': 'Courses page',
+            # 'categories_courses': site.categories_courses
             'courses': courses
         })
         return self.context

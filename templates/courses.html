@@ -12,7 +12,7 @@
             </div>
             <div class="border-bottom">
                 <nav class="nav flex-column">
-                    {% for category in context.courses %}                
+                    {% for category in context.categories_courses %}
                         <a class="nav-link" href="/courses/{{ category }}/">{{ category }}</a>
                     {% endfor %}
                 </nav>
@@ -39,8 +39,8 @@
             </div>
             <form action="" method="post" class="mt-3 text-center">
                 <div class="mb-3">
-                    <label for="createCategory" class="form-label">Add course</label>
-                    <input type="text" class="form-control w-75 mx-auto" id="createCategory" name="new-course">
+                    <label for="createCourse" class="form-label">Add course</label>
+                    <input type="text" class="form-control w-75 mx-auto" id="createCourse" name="new-course">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

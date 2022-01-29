@@ -1,0 +1,23 @@
+{
+    "teachers": [],
+    "students": [],
+    "categories_courses": [
+        "Python",
+        "Java",
+        "JavaScript"
+    ],
+    "courses": [
+        {
+            "category": "Python",
+            "name": "Python for beginner"
+        },
+        {
+            "category": "Python",
+            "name": "Python for profy"
+        },
+        {
+            "category": "Java",
+            "name": "JavaScript"
+        }
+    ]
+}
