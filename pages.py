@@ -48,6 +48,9 @@ class CoursesPage(AllPages):
                     json.dump(courses, f, indent=4)
 
 
+class CoursesDetailPage(AllPages):
+    pass
+
 
 class AboutPage(AllPages):
     template = 'about.html'

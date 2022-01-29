@@ -13,7 +13,7 @@
             <div class="border-bottom">
                 <nav class="nav flex-column">
                     {% for category in context.courses %}                
-                        <a class="nav-link" href="#">{{ category }}</a>
+                        <a class="nav-link" href="/courses/{{ category }}/">{{ category }}</a>
                     {% endfor %}
                 </nav>
             </div>
@@ -26,10 +26,10 @@
             </form>
         </div>
     </div>
-    <!-- {% for category in context.courses %}
-        {{ category }}
-        {% for course in context.courses[category] %}
-            {{ course }}
-        {% endfor %}
-    {% endfor %} -->
+{#    {% for category in context.courses %}#}
+{#        {{ category }}#}
+{#        {% for course in context.courses[category] %}#}
+{#            {{ course }}#}
+{#        {% endfor %}#}
+{#    {% endfor %}#}
 {% endblock content %}
