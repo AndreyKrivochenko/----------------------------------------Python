@@ -37,6 +37,11 @@ class Course(PrototypeMixin):
         self.name = name
         self.description = description
 
+    def update_course(self, **kwargs):
+        self.name = kwargs.get('new_name')
+        self.description = kwargs.get('new_text')
+        return self
+
 
 class InteractiveCourse(Course):
     def __init__(self, category, name, description, **kwargs):
@@ -44,10 +49,9 @@ class InteractiveCourse(Course):
         self.url = kwargs.get('url') or ''
         self.type = 'interactive'
 
-    def update_course(self, new_name, new_description, new_url):
-        self.name = new_name
-        self.description = new_description
-        self.url = new_url
+    def update_course(self, **kwargs):
+        super(InteractiveCourse, self).update_course(**kwargs)
+        self.url = kwargs.get('new_url')
         return self
 
 
@@ -57,10 +61,9 @@ class RecordCourse(Course):
         self.address = kwargs.get('address') or ''
         self.type = 'record'
 
-    def update_course(self, new_name, new_description, new_address):
-        self.name = new_name
-        self.description = new_description
-        self.address = new_address
+    def update_course(self, **kwargs):
+        super(RecordCourse, self).update_course(**kwargs)
+        self.address = kwargs.get('new_address')
         return self
 
 
@@ -115,10 +118,7 @@ class TrainingSite:
         return None
 
     def update_course(self, course: Course, **kwargs):
-        if isinstance(course, InteractiveCourse):
-            course.update_course(kwargs.get('new_name'), kwargs.get('new_text'), kwargs.get('new_url'))
-        elif isinstance(course, RecordCourse):
-            course.update_course(kwargs.get('new_name'), kwargs.get('new_text'), kwargs.get('new_address'))
+        course.update_course(**kwargs)
         self.__save_site()
         return None
 

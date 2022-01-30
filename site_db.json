@@ -19,8 +19,8 @@
         {
             "category": "Java",
             "name": "Java for beginner",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum commodo dui sit amet orci elementum molestie. Maecenas dolor neque, laoreet id fermentum vel, facilisis ac tellus. Cras luctus rutrum felis nec pulvinar. Vestibulum non tortor libero. Donec vehicula velit quis dolor pretium consectetur. Sed elit est, scelerisque non mi at.",
-            "url": "",
+            "description": "Lorem ipsum",
+            "url": "http://www.course.com/java/",
             "type": "interactive"
         },
         {
@@ -33,8 +33,8 @@
         {
             "category": "React",
             "name": "React for beginner",
-            "description": "Bla-bla-bla",
-            "url": "",
+            "description": "Lorem ipsum",
+            "url": "https://www.course.com/react/",
             "type": "interactive"
         },
         {
