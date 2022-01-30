@@ -1,2 +1,5 @@
 log[update_log]---> Update course Python for profy
 log[update_log]---> Update course Django go
+log[update_log]---> Update course Django go
+log[update_log]---> Update course Django go
+log[update_log]---> Update course JavaScript for beginner

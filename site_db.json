@@ -27,7 +27,7 @@
             "category": "JavaScript",
             "name": "JavaScript for beginner",
             "description": "Lorem ipsum",
-            "address": "",
+            "address": "3793 Green Dale Point, Wimp, Indiana",
             "type": "record"
         },
         {
@@ -41,7 +41,7 @@
             "category": "Django",
             "name": "Django go",
             "description": "123",
-            "url": "",
+            "url": "http://www.course.com/django/",
             "type": "interactive"
         }
     ],

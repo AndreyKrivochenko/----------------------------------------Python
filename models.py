@@ -39,9 +39,9 @@ class Course(PrototypeMixin):
 
 
 class InteractiveCourse(Course):
-    def __init__(self, category, name, description):
+    def __init__(self, category, name, description, **kwargs):
         Course.__init__(self, category, name, description)
-        self.url = ''
+        self.url = kwargs.get('url') or ''
         self.type = 'interactive'
 
     def update_course(self, new_name, new_description, new_url):
@@ -52,9 +52,9 @@ class InteractiveCourse(Course):
 
 
 class RecordCourse(Course):
-    def __init__(self, category, name, description):
+    def __init__(self, category, name, description, **kwargs):
         Course.__init__(self, category, name, description)
-        self.address = ''
+        self.address = kwargs.get('address') or ''
         self.type = 'record'
 
     def update_course(self, new_name, new_description, new_address):
@@ -71,8 +71,8 @@ class CourseFactory:
     }
 
     @classmethod
-    def create(cls, type_, category, name, description):
-        return cls.types[type_](category, name, description)
+    def create(cls, type_, category, name, description, **kwargs):
+        return cls.types[type_](category, name, description, **kwargs)
 
 
 class TrainingSite:
@@ -89,7 +89,8 @@ class TrainingSite:
                 course.get('type'),
                 course.get('category'),
                 course.get('name'),
-                course.get('description')
+                course.get('description'),
+                **{'url': course.get('url'), 'address': course.get('address')}
             )
         return None
 
@@ -107,8 +108,8 @@ class TrainingSite:
     def create_user(self, type_):
         return UserFactory.create(type_)
 
-    def create_course(self, type_, category, name, description):
-        course = CourseFactory.create(type_, category, name, description)
+    def create_course(self, type_, category, name, description, **kwargs):
+        course = CourseFactory.create(type_, category, name, description, **kwargs)
         self.courses.append(course)
         self.__save_site()
         return None
