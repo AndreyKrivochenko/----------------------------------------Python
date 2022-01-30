@@ -16,16 +16,22 @@ class Application:
         if len(path) > 1:
             _routes = [key.strip('/').split('/') for key, value in self.routes.items()]
             for item in _routes:
+                if item == path:
+                    self.path = f'/{"/".join(item)}/'
+                    return self.path
                 if len(item) == 1:
                     continue
                 if len(item) == len(path):
                     for i, value in enumerate(item):
                         if value == path[i]:
                             _path = f'{_path}{value}/'
-                        elif value.find('slug') and path[i].replace('_', '').isalpha():
+                            continue
+                        elif value.startswith('<slug') and path[i].replace('_', '').isalpha():
                             _path = f'{_path}{value}/'
                             _value = value.lstrip('<').rstrip('>').split(':')
                             request.request[_value[1]] = path[i].replace('_', ' ')
+                            continue
+                        _path = '/'
         elif len(path[0]) > 1:
             _path = f'/{path[0]}/'
         else:

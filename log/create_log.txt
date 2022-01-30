@@ -1,0 +1,2 @@
+log[create_log]---> Created category Django
+log[create_log]---> Create course Django go

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ context.title }}
+{% endblock title %}
+
+{% block content %}
+    <div class="mx-auto mt-5" style="width: 600px;">
+        <form action="" method="post">
+            <label for="selectInput" class="form-label">Select type course:</label>
+            <select class="form-select mb-3" id="selectInput" name="type">
+                <option selected>Open this select menu</option>
+                <option value="interactive">Interactive</option>
+                <option value="record">Record</option>
+            </select>
+            <label for="categoryInput" class="form-label">Select category course:</label>
+            <select class="form-select mb-3" id="categoryInput" name="category">
+                <option selected>Open this select menu</option>
+                {% for category in context.categories %}
+                    <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+            <div class="mb-3">
+                <label for="NameInput" class="form-label">Name:</label>
+                <input type="text" class="form-control" id="NameInput" name="name">
+            </div>
+            <div class="mb-3">
+                <label for="descriptionTextarea" class="form-label">Description:</label>
+                <textarea class="form-control" id="descriptionTextarea"
+                          rows="3" name="new_text"></textarea>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

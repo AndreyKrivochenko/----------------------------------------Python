@@ -5,21 +5,42 @@
         {
             "category": "Python",
             "name": "Python for beginner",
-            "description": "Lorem ipsum",
+            "description": "Lorem ipsum 555",
             "url": "",
             "type": "interactive"
         },
         {
             "category": "Python",
             "name": "Python for profy",
-            "description": "Lorem ipsum",
+            "description": "Lorem ipsum 33355",
             "url": "",
             "type": "interactive"
         },
         {
             "category": "Java",
             "name": "Java for beginner",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum commodo dui sit amet orci elementum molestie. Maecenas dolor neque, laoreet id fermentum vel, facilisis ac tellus. Cras luctus rutrum felis nec pulvinar. Vestibulum non tortor libero. Donec vehicula velit quis dolor pretium consectetur. Sed elit est, scelerisque non mi at.",
+            "url": "",
+            "type": "interactive"
+        },
+        {
+            "category": "JavaScript",
+            "name": "JavaScript for beginner",
             "description": "Lorem ipsum",
+            "address": "",
+            "type": "record"
+        },
+        {
+            "category": "React",
+            "name": "React for beginner",
+            "description": "Bla-bla-bla",
+            "url": "",
+            "type": "interactive"
+        },
+        {
+            "category": "Django",
+            "name": "Django go",
+            "description": "123",
             "url": "",
             "type": "interactive"
         }
@@ -28,6 +49,7 @@
         "Python",
         "Java",
         "JavaScript",
-        "React"
+        "React",
+        "Django"
     ]
 }

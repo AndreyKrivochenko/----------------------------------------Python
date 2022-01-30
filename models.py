@@ -44,12 +44,24 @@ class InteractiveCourse(Course):
         self.url = ''
         self.type = 'interactive'
 
+    def update_course(self, new_name, new_description, new_url):
+        self.name = new_name
+        self.description = new_description
+        self.url = new_url
+        return self
+
 
 class RecordCourse(Course):
     def __init__(self, category, name, description):
         Course.__init__(self, category, name, description)
         self.address = ''
         self.type = 'record'
+
+    def update_course(self, new_name, new_description, new_address):
+        self.name = new_name
+        self.description = new_description
+        self.address = new_address
+        return self
 
 
 class CourseFactory:
@@ -67,19 +79,19 @@ class TrainingSite:
     def __init__(self, file: dict):
         self.teachers = file.get('teachers')
         self.students = file.get('students')
-        self.courses = self.__get_courses_from_file(file.get('courses'))
+        self.courses = []
         self.categories_courses: list = file.get('categories_courses')
+        self.__get_courses_from_file(file.get('courses'))
 
-    def __get_courses_from_file(self, courses: list) -> list:
-        courses_list = []
+    def __get_courses_from_file(self, courses: list):
         for course in courses:
-            courses_list.append(self.create_course(
-                                    course.get('type'),
-                                    course.get('category'),
-                                    course.get('name'),
-                                    course.get('description')
-                                ))
-        return courses_list
+            self.create_course(
+                course.get('type'),
+                course.get('category'),
+                course.get('name'),
+                course.get('description')
+            )
+        return None
 
     def __save_site(self):
         site_ = {
@@ -96,16 +108,21 @@ class TrainingSite:
         return UserFactory.create(type_)
 
     def create_course(self, type_, category, name, description):
-        return CourseFactory.create(type_, category, name, description)
+        course = CourseFactory.create(type_, category, name, description)
+        self.courses.append(course)
+        self.__save_site()
+        return None
+
+    def update_course(self, course: Course, **kwargs):
+        if isinstance(course, InteractiveCourse):
+            course.update_course(kwargs.get('new_name'), kwargs.get('new_text'), kwargs.get('new_url'))
+        elif isinstance(course, RecordCourse):
+            course.update_course(kwargs.get('new_name'), kwargs.get('new_text'), kwargs.get('new_address'))
+        self.__save_site()
+        return None
 
     def create_category(self, name):
         if name and name not in self.categories_courses:
             self.categories_courses.append(name)
             self.__save_site()
-        return None
-
-    def get_course(self, name):
-        for item in self.courses:
-            if item.name == name:
-                return item
         return None
