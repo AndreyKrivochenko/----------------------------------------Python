@@ -84,6 +84,28 @@ class NewCoursePage(AllPages):
         self.template = 'new_course_final.html'
 
 
+class CopyCoursesPage(AllPages):
+    template = 'courses.html'
+
+    def get_context(self, request):
+        super().get_context(request)
+        self.context.update({
+            'title': 'Courses page',
+            'categories_courses': site.categories_courses,
+            'courses': site.courses
+        })
+        return self.context
+
+    def post(self, request):
+        super(CopyCoursesPage, self).post(request)
+        course = request.request['POST'].get('course')
+        if course:
+            for course_ in site.courses:
+                if course == str(course_):
+                    course = course_
+        site.clone_course(course)
+
+
 class AboutPage(AllPages):
     template = 'about.html'
 

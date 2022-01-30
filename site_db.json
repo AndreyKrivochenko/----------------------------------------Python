@@ -43,6 +43,20 @@
             "description": "123",
             "url": "http://www.course.com/django/",
             "type": "interactive"
+        },
+        {
+            "category": "Django",
+            "name": "Django go Clone",
+            "description": "123",
+            "url": "http://www.course.com/django/",
+            "type": "interactive"
+        },
+        {
+            "category": "React",
+            "name": "React for beginner Clone",
+            "description": "Lorem ipsum",
+            "url": "https://www.course.com/react/",
+            "type": "interactive"
         }
     ],
     "categories_courses": [

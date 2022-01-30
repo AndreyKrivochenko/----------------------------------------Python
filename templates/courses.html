@@ -35,7 +35,7 @@
                         {% for course in context.courses %}
                             {% if course.category == request.category %}
                                 <a class="nav-link"
-                                   href="/courses/{{ request.category }}/{{ course.name|replace(" ", "_") }}/">{{ course.name }}</a>
+                                   href="/courses/{{ request.category }}/{{ course.name|replace(' ', '_') }}/">{{ course.name }}</a>
                             {% endif %}
                         {% endfor %}
                     </nav>
@@ -96,6 +96,10 @@
                                 <div class="d-flex justify-content-center">
                                     <a class="btn btn-primary" href="{{ request.path }}edit/" role="button">Edit
                                         course</a>
+                                    <form action="/courses/copy/" method="post" class="ms-2">
+                                        <input type="hidden" name="course" value="{{ course }}">
+                                        <button type="submit" class="btn btn-primary">Copy the course</button>
+                                    </form>
                                 </div>
                             {% endif %}
                         {% endif %}

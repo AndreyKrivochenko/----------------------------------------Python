@@ -122,6 +122,13 @@ class TrainingSite:
         self.__save_site()
         return None
 
+    def clone_course(self, course: Course):
+        new_course = course.clone()
+        new_course.name = f'{new_course.name} Clone'
+        self.courses.append(new_course)
+        self.__save_site()
+        return None
+
     def create_category(self, name):
         if name and name not in self.categories_courses:
             self.categories_courses.append(name)
