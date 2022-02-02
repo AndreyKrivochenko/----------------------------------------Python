@@ -1,7 +1,16 @@
+import abc
+
 from .templator import render
 
 
-class Template:
+class AbstractTemplate(metaclass=abc.ABCMeta):
+
+    @abc.abstractmethod
+    def __call__(self, *args, **kwargs):
+        pass
+
+
+class Template(AbstractTemplate):
     template = ''
     context = {}
     request = {}
