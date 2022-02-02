@@ -10,3 +10,4 @@ log[update_log]---> Update course Java for beginner
 log[update_log]---> Update course Java for beginner
 log[update_log]---> Update course Java for beginner
 log[update_log]---> Update course React for beginner
+log[update_log]---> Update course Python for profy Clone

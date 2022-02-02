@@ -57,6 +57,13 @@
             "description": "Lorem ipsum",
             "url": "https://www.course.com/react/",
             "type": "interactive"
+        },
+        {
+            "category": "Python",
+            "name": "Python for profy Clone",
+            "description": "Lorem ipsum 33355715",
+            "url": "https://course.com/python",
+            "type": "interactive"
         }
     ],
     "categories_courses": [

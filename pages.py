@@ -2,6 +2,7 @@ import json
 
 from common import MAIN_MENU
 from framework import Template
+from framework.decorators import Debug
 from logging_mod import Logger
 from models import TrainingSite
 
@@ -21,6 +22,7 @@ class AllPages(Template):
         return self.context
 
 
+@Debug
 class IndexPage(AllPages):
     template = 'index.html'
 
@@ -32,6 +34,7 @@ class IndexPage(AllPages):
         return self.context
 
 
+@Debug
 class CoursesPage(AllPages):
     template = 'courses.html'
 
@@ -63,6 +66,7 @@ class CoursesPage(AllPages):
             update_logger.log(f'Update course {course.name}')
 
 
+@Debug
 class NewCoursePage(AllPages):
 
     def get_context(self, request):
@@ -84,6 +88,7 @@ class NewCoursePage(AllPages):
         self.template = 'new_course_final.html'
 
 
+@Debug
 class CopyCoursesPage(AllPages):
     template = 'courses.html'
 
@@ -97,7 +102,7 @@ class CopyCoursesPage(AllPages):
         return self.context
 
     def post(self, request):
-        super(CopyCoursesPage, self).post(request)
+        super().post(request)
         course = request.request['POST'].get('course')
         if course:
             for course_ in site.courses:
@@ -106,6 +111,7 @@ class CopyCoursesPage(AllPages):
         site.clone_course(course)
 
 
+@Debug
 class AboutPage(AllPages):
     template = 'about.html'
 
@@ -117,6 +123,7 @@ class AboutPage(AllPages):
         return self.context
 
 
+@Debug
 class ContactPage(AllPages):
 
     def get_context(self, request):
