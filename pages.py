@@ -138,3 +138,16 @@ class ContactPage(AllPages):
 
     def post(self, request):
         self.template = 'contact_final.html'
+
+
+@Debug
+class StudentsPage(AllPages):
+    template = 'students.html'
+
+    def get_context(self, request):
+        super().get_context(request)
+        self.context.update({
+            'title': 'Students page',
+            'students': site.students
+        })
+        return self.context

@@ -81,7 +81,7 @@ class CourseFactory:
 class TrainingSite:
     def __init__(self, file: dict):
         self.teachers = file.get('teachers')
-        self.students = file.get('students')
+        self.students: list = file.get('students')
         self.courses = []
         self.categories_courses: list = file.get('categories_courses')
         self.__get_courses_from_file(file.get('courses'))
