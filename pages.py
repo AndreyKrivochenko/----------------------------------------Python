@@ -1,4 +1,6 @@
 import json
+import pickle
+import os.path
 
 from common import MAIN_MENU
 from framework import Template
@@ -6,8 +8,13 @@ from framework.decorators import Debug
 from logging_mod import Logger
 from models import TrainingSite
 
-with open('site_db.json', 'r', encoding='utf-8') as f:
-    site = TrainingSite(json.load(f))
+db = 'site_db.pkl'
+
+if not os.path.exists(db) or os.stat(db).st_size == 0:
+    site = TrainingSite()
+else:
+    with open('site_db.pkl', 'rb') as f:
+        site = TrainingSite(file=pickle.load(f))
 
 create_logger = Logger('create_log')
 update_logger = Logger('update_log')
@@ -148,6 +155,43 @@ class StudentsPage(AllPages):
         super().get_context(request)
         self.context.update({
             'title': 'Students page',
-            'students': site.students
+            'students': site.students,
+            'courses': site.courses
         })
         return self.context
+
+    def post(self, request):
+        super().post(request)
+        data = request.request.get('POST')
+        course = data.get('save_to_course')
+        student = data.get('student')
+        if course and student:
+            for course_ in site.courses:
+                if course == str(course_):
+                    course = course_
+            for student_ in site.students:
+                if student == student_.name:
+                    student = student_
+            site.update_course(course, student=student)
+            site.update_user(student, course=course)
+
+
+@Debug
+class CreateStudentPage(AllPages):
+
+    def get_context(self, request):
+        super().get_context(request)
+        self.context.update({
+            'title': 'Create student page'
+        })
+        return self.context
+
+    def get(self, request):
+        self.template = 'create_student.html'
+
+    def post(self, request):
+        super().post(request)
+        data = request.request.get('POST')
+        site.create_user('student', data['name'], data['email'], data['phone'])
+        create_logger.log(f'Create student {data["name"]}')
+        self.template = 'new_course_final.html'

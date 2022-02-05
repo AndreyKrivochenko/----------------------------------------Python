@@ -1,10 +1,23 @@
 import json
+import pickle
 
 from reusepatterns.prototypes import PrototypeMixin
 
 
 class User:
-    pass
+    def __init__(self, name: str, email: str, phone: str):
+        self.name = name
+        self.email = email
+        self.phone = phone
+
+    def update_user(self, **kwargs):
+        if kwargs.get('new_name'):
+            self.name = kwargs.get('new_name')
+        if kwargs.get('new_email'):
+            self.email = kwargs.get('new_email')
+        if kwargs.get('new_phone'):
+            self.phone = kwargs.get('new_phone')
+        return self
 
 
 class Teacher(User):
@@ -12,7 +25,19 @@ class Teacher(User):
 
 
 class Student(User):
-    pass
+    def __init__(self, name: str, email: str, phone: str):
+        super().__init__(name, email, phone)
+        self.courses = []
+
+    def add_course(self, course: 'Course'):
+        if course:
+            self.courses.append(course)
+
+    def update_user(self, **kwargs):
+        super().update_user(**kwargs)
+        if kwargs.get('course'):
+            self.courses.append(kwargs.get('course'))
+        return self
 
 
 class SimpleFactory:
@@ -27,8 +52,8 @@ class UserFactory:
     }
 
     @classmethod
-    def create(cls, type_):
-        return cls.types[type_]()
+    def create(cls, type_, name, email, phone):
+        return cls.types[type_](name, email, phone)
 
 
 class Course(PrototypeMixin):
@@ -36,10 +61,15 @@ class Course(PrototypeMixin):
         self.category = category
         self.name = name
         self.description = description
+        self.students = []
 
     def update_course(self, **kwargs):
-        self.name = kwargs.get('new_name')
-        self.description = kwargs.get('new_text')
+        if kwargs.get('new_name'):
+            self.name = kwargs.get('new_name')
+        if kwargs.get('new_text'):
+            self.description = kwargs.get('new_text')
+        if kwargs.get('student'):
+            self.students.append(kwargs.get('student'))
         return self
 
 
@@ -79,37 +109,36 @@ class CourseFactory:
 
 
 class TrainingSite:
-    def __init__(self, file: dict):
-        self.teachers = file.get('teachers')
-        self.students: list = file.get('students')
-        self.courses = []
-        self.categories_courses: list = file.get('categories_courses')
-        self.__get_courses_from_file(file.get('courses'))
-
-    def __get_courses_from_file(self, courses: list):
-        for course in courses:
-            self.create_course(
-                course.get('type'),
-                course.get('category'),
-                course.get('name'),
-                course.get('description'),
-                **{'url': course.get('url'), 'address': course.get('address')}
-            )
-        return None
+    def __init__(self, **kwargs):
+        self.teachers: list = kwargs.get('file').get('teachers') if kwargs.get('file') else []
+        self.students = kwargs.get('file').get('students') if kwargs.get('file') else []
+        self.courses = kwargs.get('file').get('courses') if kwargs.get('file') else []
+        self.categories_courses: list = kwargs.get('file').get('categories_courses') if kwargs.get('file') else []
 
     def __save_site(self):
         site_ = {
             'teachers': self.teachers,
             'students': self.students,
-            'courses': [item.__dict__ for item in self.courses],
+            'courses': self.courses,
             'categories_courses': self.categories_courses
         }
-        with open('site_db.json', 'w', encoding='utf-8') as f:
-            json.dump(site_, f, indent=4)
+        with open('site_db.pkl', 'wb') as f:
+            pickle.dump(site_, f, protocol=pickle.HIGHEST_PROTOCOL)
         return None
 
-    def create_user(self, type_):
-        return UserFactory.create(type_)
+    def create_user(self, type_, name, email, phone):
+        user = UserFactory.create(type_, name, email, phone)
+        if type_ == 'student':
+            self.students.append(user)
+        elif type_ == 'teacher':
+            self.teachers.append(user)
+        self.__save_site()
+        return None
+
+    def update_user(self, user: User, **kwargs):
+        user.update_user(**kwargs)
+        self.__save_site()
+        return None
 
     def create_course(self, type_, category, name, description, **kwargs):
         course = CourseFactory.create(type_, category, name, description, **kwargs)

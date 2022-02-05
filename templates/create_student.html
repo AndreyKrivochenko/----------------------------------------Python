@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ context.title }}
+{% endblock title %}
+
+{% block content %}
+    <div class="w-50 mx-auto mt-5">
+    <form method="post">
+        <div class="mb-3">
+            <label for="InputName" class="form-label">Name:</label>
+            <input type="text" class="form-control" id="InputName" aria-describedby="subjectlHelp" name="name">
+            <div id="subjectlHelp" class="form-text">Enter student name</div>
+        </div>
+        <div class="mb-3">
+            <label for="InputEmail" class="form-label">E-mail:</label>
+            <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" name="email">
+            <div id="emailHelp" class="form-text">Enter email</div>
+        </div>
+        <div class="mb-3">
+            <label for="InputPhone" class="form-label">Phone:</label>
+            <input type="tel" class="form-control" id="InputPhone" aria-describedby="emailHelp" name="phone">
+            <div id="phoneHelp" class="form-text">Enter phone number</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+    </div>
+{% endblock content %}

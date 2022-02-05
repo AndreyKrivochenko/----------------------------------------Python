@@ -7,13 +7,14 @@
 {% block content %}
 <div class="container d-flex mt-3">
     <div class="border-end" style="width: 300px;">
-        <div class="border-bottom">
+        <div>
             <p class="text-center">Students</p>
         </div>
-        <div class="border-bottom">
+        <div>
             <div class="list-group">
                 {% for student in context.students %}
-                <a href="#" class="list-group-item list-group-item-action">{{ student }}</a>
+                <a href="/students/{{ student.name|replace(' ', '_') }}/"
+                   class="list-group-item list-group-item-action">{{ student.name }}</a>
                 {% endfor %}
             </div>
         </div>
@@ -21,5 +22,41 @@
             <a class="btn btn-primary" href="/students/new/" role="button">New student</a>
         </div>
     </div>
+    {% if request.student %}
+        <div class="border-end" style="width: 600px;">
+            <div>
+                <p class="text-center">{{ request.student }}</p>
+            </div>
+            <div class="ms-2">
+                <p>Student courses:
+                    {% for student in context.students %}
+                        {% if student.name == request.student %}
+                            {% for course in student.courses %}
+                                <a href="/courses/{{ course.category }}/{{ course.name|replace(' ', '_') }}/">{{ course.name }}</a>
+                                {% if loop.last %}{% else %}, {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+            <div class="ms-2">
+                <p>Enroll a student in a course:</p>
+                <form action="" method="post" class="row g-3">
+                    <div class="col-auto">
+                        <select class="form-select" id="courseInput" name="save_to_course">
+                            <option selected>Open this select menu</option>
+                            {% for course in context.courses %}
+                                <option value="{{ course }}">{{ course.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <input type="hidden" value="{{ request.student }}" name="student">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endif %}
 </div>
 {% endblock content %}

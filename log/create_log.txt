@@ -1,2 +1,18 @@
 log[create_log]---> Created category Django
 log[create_log]---> Create course Django go
+log[create_log]---> Created category Python
+log[create_log]---> Created category Java
+log[create_log]---> Create course Python for beginner
+log[create_log]---> Create student Andrey Krivochenko
+log[create_log]---> Create student Ivan Petrov
+log[create_log]---> Create student Petr Ivanov
+log[create_log]---> Created category Python
+log[create_log]---> Create student Andrey Krivochenko
+log[create_log]---> Create course Python for beginner
+log[create_log]---> Create student Ivan Petrov
+log[create_log]---> Created category Python
+log[create_log]---> Created category Java
+log[create_log]---> Create course Python for beginner
+log[create_log]---> Create student Andrey Krivochenko
+log[create_log]---> Create student Ivan Petrov
+log[create_log]---> Create course Java for beginner

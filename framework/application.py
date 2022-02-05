@@ -9,33 +9,38 @@ class Application:
         self.path = None
 
     def path_processing(self, path: str, request: Request):
-        if len(path) > 1 and path[-1] != '/':
-            path = f'{path}/'
-        path = path.strip('/').split('/')
-        _path = '/'
-        if len(path) > 1:
-            _routes = [key.strip('/').split('/') for key, value in self.routes.items()]
-            for item in _routes:
-                if item == path:
-                    self.path = f'/{"/".join(item)}/'
-                    return self.path
-                if len(item) == 1:
-                    continue
-                if len(item) == len(path):
-                    for i, value in enumerate(item):
-                        if value == path[i]:
-                            _path = f'{_path}{value}/'
-                            continue
-                        elif value.startswith('<slug') and path[i].replace('_', '').isalpha():
-                            _path = f'{_path}{value}/'
-                            _value = value.lstrip('<').rstrip('>').split(':')
-                            request.request[_value[1]] = path[i].replace('_', ' ')
-                            continue
-                        _path = '/'
-        elif len(path[0]) > 1:
-            _path = f'/{path[0]}/'
+        def search_rout(rout_list, path_list):
+            if rout_list and path_list:
+                if (rout_list[0] == path_list[0] or rout_list[0].startswith('<')) and len(rout_list) == len(path_list):
+                    return f'{rout_list[0]}/{search_rout(rout_list[1:], path_list[1:])}'
+                else:
+                    return False
+            else:
+                return ''
+        if path == '/':
+            self.path = path
+            return self.path
+
+        def add_slug_to_request(path, route):
+            path = path.strip('/').split('/')
+            route = route.strip('/').split('/')
+            for i, value in enumerate(route):
+                if value.startswith('<slug'):
+                    _value = value.lstrip('<').rstrip('>').split(':')
+                    request.request[_value[1]] = path[i].replace('_', ' ')
+
+        _path_list = path.strip('/').split('/')
+        _routes = [key.strip('/').split('/') for key, value in self.routes.items()]
+        _path = ''
+        result_list = []
+        for rout in _routes:
+            if search_rout(rout, _path_list) and not search_rout(rout, _path_list).endswith('False'):
+                result_list.append(f'/{search_rout(rout, _path_list)}')
+        if len(result_list) > 1:
+            _path = path
         else:
-            _path = '/'
+            _path = result_list[0]
+        add_slug_to_request(path, _path)
         self.path = _path
         return self.path
 

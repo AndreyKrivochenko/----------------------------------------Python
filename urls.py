@@ -1,4 +1,5 @@
-from pages import IndexPage, AboutPage, ContactPage, CoursesPage, NewCoursePage, CopyCoursesPage, StudentsPage
+from pages import IndexPage, AboutPage, ContactPage, CoursesPage, NewCoursePage, CopyCoursesPage, StudentsPage, \
+    CreateStudentPage
 
 routes = {
     '/': IndexPage(),
@@ -9,6 +10,9 @@ routes = {
     '/courses/<slug:category>/<slug:course>/': CoursesPage(),
     '/courses/<slug:category>/<slug:course>/edit/': CoursesPage(),
     '/students/': StudentsPage(),
+    '/students/new/': CreateStudentPage(),
+    '/students/<slug:student>/': StudentsPage(),
     '/about/': AboutPage(),
-    '/contact/': ContactPage()
+    '/contact/': ContactPage(),
+    '/favicon.ico': ''
 }
