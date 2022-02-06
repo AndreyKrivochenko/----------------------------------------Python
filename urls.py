@@ -1,5 +1,5 @@
 from pages import IndexPage, AboutPage, ContactPage, CoursesPage, NewCoursePage, CopyCoursesPage, StudentsPage, \
-    CreateStudentPage
+    CreateStudentPage, CoursesApi
 
 routes = {
     '/': IndexPage(),
@@ -14,5 +14,6 @@ routes = {
     '/students/<slug:student>/': StudentsPage(),
     '/about/': AboutPage(),
     '/contact/': ContactPage(),
-    '/favicon.ico': ''
+    '/favicon.ico': '',
+    '/api/courses/': CoursesApi()
 }

@@ -60,6 +60,9 @@ class Student(User):
             self.courses.append(kwargs.get('course'))
         return self
 
+    def __str__(self):
+        return self.name
+
 
 class SimpleFactory:
     def __init__(self, types=None):

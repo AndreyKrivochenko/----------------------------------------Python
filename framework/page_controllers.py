@@ -15,6 +15,9 @@ class Template(AbstractTemplate):
     context = {}
     request = {}
 
+    def __init__(self):
+        self.json_file = None
+
     def post(self, request):
         if request.request.get('POST'):
             self.context.update(request.request.get('POST'))
@@ -28,16 +31,24 @@ class Template(AbstractTemplate):
     def get_context(self, request):
         return self.context
 
+    def get_json_file(self, request):
+        pass
+
     def __call__(self, request, **kwargs):
         if request.method == 'POST':
             self.post(request)
         elif request.method == 'GET':
             self.get(request)
         self.get_context(request)
-        return '200 OK', bytes(
-            render(self.template, request=request.request, context=self.context),
-            encoding='utf-8'
-        )
+        self.get_json_file(request)
+
+        if self.json_file:
+            return '200 OK', self.json_file
+        else:
+            return '200 OK', bytes(
+                render(self.template, request=request.request, context=self.context),
+                encoding='utf-8'
+            )
 
 
 class NotFoundPage:

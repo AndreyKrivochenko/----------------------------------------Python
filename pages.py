@@ -195,3 +195,19 @@ class CreateStudentPage(AllPages):
         site.create_user('student', data['name'], data['email'], data['phone'])
         create_logger.log(f'Create student {data["name"]}')
         self.template = 'new_course_final.html'
+
+
+class CoursesApi(AllPages):
+    def get_json_file(self, request):
+        result = []
+        for course in site.courses:
+            data = {}
+            for key, value in course.__dict__.items():
+                if key != '_observers':
+                    if key == 'students':
+                        data[key] = [str(i) for i in value]
+                    else:
+                        data[key] = value
+            result.append(data)
+
+        self.json_file = bytes(json.dumps(result, indent=4), 'utf-8')
