@@ -1,7 +1,28 @@
-import json
+import abc
 import pickle
 
 from reusepatterns.prototypes import PrototypeMixin
+from collections.abc import Iterable, Iterator
+from typing import Any, List
+
+
+class Observer(metaclass=abc.ABCMeta):
+    def __init__(self):
+        self._subject = None
+
+    @abc.abstractmethod
+    def update(self, arg):
+        pass
+
+
+class SmsNotifier(Observer):
+    def update(self, arg: 'Course'):
+        print(f'Sms notifier for {", ".join(arg)}, course "{arg.name}" changed')
+
+
+class EmailNotifier(Observer):
+    def update(self, arg: 'Course'):
+        print(f'Email notifier for {", ".join(arg)}, course "{arg.name}" changed')
 
 
 class User:
@@ -56,12 +77,33 @@ class UserFactory:
         return cls.types[type_](name, email, phone)
 
 
-class Course(PrototypeMixin):
-    def __init__(self, category, name, description):
+class StudentCourseIterator(Iterator):
+    _position = None
+
+    def __init__(self, collection: List[Any]):
+        self._collection = collection
+        self._position = 0
+
+    def __next__(self):
+        try:
+            value = self._collection[self._position].name
+            self._position += 1
+        except IndexError:
+            raise StopIteration()
+
+        return value
+
+
+class Course(PrototypeMixin, Iterable):
+    def __init__(self, category: str, name: str, description: str):
         self.category = category
         self.name = name
         self.description = description
-        self.students = []
+        self.students: List[Any] = []
+        self._observers = set()
+
+    def __iter__(self) -> StudentCourseIterator:
+        return StudentCourseIterator(self.students)
 
     def update_course(self, **kwargs):
         if kwargs.get('new_name'):
@@ -70,7 +112,20 @@ class Course(PrototypeMixin):
             self.description = kwargs.get('new_text')
         if kwargs.get('student'):
             self.students.append(kwargs.get('student'))
+        self._notify()
         return self
+
+    def attach(self, observer: User) -> None:
+        observer._subject = self
+        self._observers.add(observer)
+
+    def detach(self, observer: User) -> None:
+        observer._subject = None
+        self._observers.discard(observer)
+
+    def _notify(self) -> None:
+        for observer in self._observers:
+            observer.update(self)
 
 
 class InteractiveCourse(Course):
@@ -142,6 +197,8 @@ class TrainingSite:
 
     def create_course(self, type_, category, name, description, **kwargs):
         course = CourseFactory.create(type_, category, name, description, **kwargs)
+        course.attach(SmsNotifier())
+        course.attach(EmailNotifier())
         self.courses.append(course)
         self.__save_site()
         return None

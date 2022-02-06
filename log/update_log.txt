@@ -14,3 +14,11 @@ log[update_log]---> Update course Python for profy Clone
 log[update_log]---> Update course Python for beginner
 log[update_log]---> Update course Python for beginner
 log[update_log]---> Update course Python for beginner
+log[update_log]---> Update course Python for beginner
+log[update_log]---> Update course Python for beginner
+log[update_log]---> Update course Python for beginner
+log[update_log]---> Update course Python for beginner
+log[update_log]---> Update course Python for beginner
+log[update_log]---> Update course Python for beginner
+log[update_log]---> Update course Python for beginner
+log[update_log]---> Update course Java for beginners
