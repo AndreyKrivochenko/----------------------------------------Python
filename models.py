@@ -26,10 +26,11 @@ class EmailNotifier(Observer):
 
 
 class User:
-    def __init__(self, name: str, email: str, phone: str):
+    def __init__(self, name: str, email: str, phone: str, user_id: int):
         self.name = name
         self.email = email
         self.phone = phone
+        self.user_id = user_id
 
     def update_user(self, **kwargs):
         if kwargs.get('new_name'):
@@ -46,8 +47,8 @@ class Teacher(User):
 
 
 class Student(User):
-    def __init__(self, name: str, email: str, phone: str):
-        super().__init__(name, email, phone)
+    def __init__(self, name: str, email: str, phone: str, user_id: int = None):
+        super().__init__(name, email, phone, user_id)
         self.courses = []
 
     def add_course(self, course: 'Course'):
@@ -76,8 +77,8 @@ class UserFactory:
     }
 
     @classmethod
-    def create(cls, type_, name, email, phone):
-        return cls.types[type_](name, email, phone)
+    def create(cls, type_, name, email, phone, user_id):
+        return cls.types[type_](name, email, phone, user_id)
 
 
 class StudentCourseIterator(Iterator):
@@ -98,10 +99,13 @@ class StudentCourseIterator(Iterator):
 
 
 class Course(PrototypeMixin, Iterable):
-    def __init__(self, category: str, name: str, description: str):
+    def __init__(self, category: str, name: str, description: str, address: str, url: str, course_id: int):
         self.category = category
         self.name = name
         self.description = description
+        self.address = address
+        self.url = url
+        self.course_id = course_id
         self.students: List[Any] = []
         self._observers = set()
 
@@ -132,9 +136,8 @@ class Course(PrototypeMixin, Iterable):
 
 
 class InteractiveCourse(Course):
-    def __init__(self, category, name, description, **kwargs):
-        Course.__init__(self, category, name, description)
-        self.url = kwargs.get('url') or ''
+    def __init__(self, category, name, description, address: str, url: str, course_id: int):
+        Course.__init__(self, category, name, description, address, url, course_id)
         self.type = 'interactive'
 
     def update_course(self, **kwargs):
@@ -144,9 +147,8 @@ class InteractiveCourse(Course):
 
 
 class RecordCourse(Course):
-    def __init__(self, category, name, description, **kwargs):
-        Course.__init__(self, category, name, description)
-        self.address = kwargs.get('address') or ''
+    def __init__(self, category, name, description, address: str, url: str, course_id: int):
+        Course.__init__(self, category, name, description, address, url, course_id)
         self.type = 'record'
 
     def update_course(self, **kwargs):
@@ -162,8 +164,8 @@ class CourseFactory:
     }
 
     @classmethod
-    def create(cls, type_, category, name, description, **kwargs):
-        return cls.types[type_](category, name, description, **kwargs)
+    def create(cls, type_, category, name, description, address=None, url=None, course_id=None):
+        return cls.types[type_](category, name, description, address, url, course_id)
 
 
 class TrainingSite:
