@@ -3,22 +3,15 @@ from patterns.prototypes import PrototypeMixin
 from collections.abc import Iterable
 from typing import Any, List
 
+from patterns.unit_of_work import DomainObject
 
-class User:
+
+class User(DomainObject):
     def __init__(self, name: str, email: str, phone: str, user_id: int):
         self.name = name
         self.email = email
         self.phone = phone
         self.user_id = user_id
-
-    def update_user(self, **kwargs):
-        if kwargs.get('new_name'):
-            self.name = kwargs.get('new_name')
-        if kwargs.get('new_email'):
-            self.email = kwargs.get('new_email')
-        if kwargs.get('new_phone'):
-            self.phone = kwargs.get('new_phone')
-        return self
 
 
 class Teacher(User):
@@ -29,16 +22,6 @@ class Student(User):
     def __init__(self, name: str, email: str, phone: str, user_id: int):
         super().__init__(name, email, phone, user_id)
         self.courses = []
-
-    def add_course(self, course: 'Course'):
-        if course:
-            self.courses.append(course)
-
-    def update_user(self, **kwargs):
-        super().update_user(**kwargs)
-        if kwargs.get('course'):
-            self.courses.append(kwargs.get('course'))
-        return self
 
     def __str__(self):
         return self.name
@@ -60,7 +43,7 @@ class UserFactory:
         return cls.types[type_](name, email, phone, user_id)
 
 
-class CategoryCourse:
+class CategoryCourse(DomainObject):
     def __init__(self, name, category_id=None):
         self.name = name
         self.category_id = category_id
@@ -69,7 +52,7 @@ class CategoryCourse:
         pass
 
 
-class Course(PrototypeMixin, Iterable):
+class Course(PrototypeMixin, DomainObject, Iterable):
     def __init__(self, category_id: int, name: str, description: str, address: str, url: str, course_id: int):
         self.category_id = category_id
         self.name = name

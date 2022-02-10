@@ -5,3 +5,9 @@
 2022-02-10 00:29:19.004034 | log[create_log]---> Create course Java for beginner
 2022-02-10 12:46:32.125006 | log[create_log]---> Create course Python for profy
 2022-02-10 12:52:48.061032 | log[create_log]---> Create student Andrey Krivochenko
+2022-02-10 21:17:09.980629 | log[create_log]---> Create student Ivan Petrov
+2022-02-10 21:23:28.247382 | log[create_log]---> Create student Petr Ivanov
+2022-02-10 21:26:08.899511 | log[create_log]---> Create student Ivan Petrov
+2022-02-10 21:28:28.345269 | log[create_log]---> Create student Petr Ivanov
+2022-02-10 22:11:51.551431 | log[create_log]---> Created category React
+2022-02-10 22:12:11.702777 | log[create_log]---> Create course React for beginner

@@ -1,7 +1,7 @@
 import abc
 import sqlite3
 
-from models import CourseFactory, UserFactory, CategoryCourse
+import models
 
 connection = sqlite3.connect('site_db.sqlite', check_same_thread=False)
 
@@ -65,7 +65,7 @@ class SqliteStudentMapper(AbstractMapper):
         if result:
             student_list = []
             for student in result:
-                student_list.append(UserFactory.create('student', *student))
+                student_list.append(models.UserFactory.create('student', *student))
             return student_list
         else:
             return []
@@ -76,7 +76,7 @@ class SqliteStudentMapper(AbstractMapper):
         self.cursor.execute(statement, (id_obj,))
         result = self.cursor.fetchone()
         if result:
-            return UserFactory.create('student', *result)
+            return models.UserFactory.create('student', *result)
         else:
             raise RecordNotFoundException(f'record with userid={id_obj} not found')
 
@@ -86,7 +86,7 @@ class SqliteStudentMapper(AbstractMapper):
         self.cursor.execute(statement, (obj_name,))
         result = self.cursor.fetchone()
         if result:
-            return UserFactory.create('student', *result)
+            return models.UserFactory.create('student', *result)
         else:
             raise RecordNotFoundException(f'record with name={obj_name} not found')
 
@@ -124,7 +124,7 @@ class SqliteCourseMapper(AbstractMapper):
         if result:
             course_list = []
             for course in result:
-                course_list.append(CourseFactory.create(*course))
+                course_list.append(models.CourseFactory.create(*course))
             return course_list
         else:
             return []
@@ -135,7 +135,7 @@ class SqliteCourseMapper(AbstractMapper):
         self.cursor.execute(statement, (id_obj,))
         result = self.cursor.fetchone()
         if result:
-            return CourseFactory.create(*result)
+            return models.CourseFactory.create(*result)
         else:
             raise RecordNotFoundException(f'record with id={id_obj} not found')
 
@@ -145,7 +145,7 @@ class SqliteCourseMapper(AbstractMapper):
         self.cursor.execute(statement, (obj_name,))
         result = self.cursor.fetchone()
         if result:
-            return CourseFactory.create(*result)
+            return models.CourseFactory.create(*result)
         else:
             raise RecordNotFoundException(f'record with name={obj_name} not found')
 
@@ -183,7 +183,7 @@ class SqliteCategoryMapper(AbstractMapper):
         if result:
             category_list = []
             for category in result:
-                category_list.append(CategoryCourse(*category))
+                category_list.append(models.CategoryCourse(*category))
             return category_list
         else:
             return []
@@ -193,7 +193,7 @@ class SqliteCategoryMapper(AbstractMapper):
         self.cursor.execute(statement, (id_obj,))
         result = self.cursor.fetchone()
         if result:
-            return CategoryCourse(*result)
+            return models.CategoryCourse(*result)
         else:
             raise RecordNotFoundException(f'record with id={id_obj} not found')
 
@@ -202,7 +202,7 @@ class SqliteCategoryMapper(AbstractMapper):
         self.cursor.execute(statement, (obj_name,))
         result = self.cursor.fetchone()
         if result:
-            return CategoryCourse(*result)
+            return models.CategoryCourse(*result)
         else:
             raise RecordNotFoundException(f'record with name={obj_name} not found')
 
@@ -267,10 +267,10 @@ class SqliteStudentCourseMapper(AbstractStudentCourseMapper):
         if result:
             result_courses = []
             for course in result:
-                result_courses.append(CourseFactory.create(*course))
+                result_courses.append(models.CourseFactory.create(*course))
             return result_courses
         else:
-            raise RecordNotFoundException(f'The student {student.name} has no courses')
+            return []
 
     def find_all_student_of_course(self, course):
         statement = f"SELECT name, email, phone, user_id FROM student s LEFT JOIN student_course sc ON s.user_id = " \
@@ -280,7 +280,7 @@ class SqliteStudentCourseMapper(AbstractStudentCourseMapper):
         if result:
             result_users = []
             for student in result:
-                result_users.append(UserFactory.create('student', *student))
+                result_users.append(models.UserFactory.create('student', *student))
             return result_users
         else:
-            raise RecordNotFoundException(f'The course "{course.name}" has no students')
+            return []
