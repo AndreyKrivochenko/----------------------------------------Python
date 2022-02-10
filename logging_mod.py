@@ -1,5 +1,5 @@
 from patterns import FileLoggerHandler, ConsoleLoggerHandler
-from reusepatterns.singltones import SingletonByName
+from patterns.singltones import SingletonByName
 
 
 class Logger(metaclass=SingletonByName):

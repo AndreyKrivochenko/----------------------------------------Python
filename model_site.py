@@ -33,8 +33,12 @@ class TrainingSite:
         self.courses.append(course)
 
     def update_course(self, course: Course, **kwargs):
-        course.update_course(**kwargs)
-        return None
+        course.name = kwargs.get('new_name')
+        course.description = kwargs.get('new_text')
+        course.url = kwargs.get('new_url')
+        course.address = kwargs.get('new_address')
+        self.course_mapper.update(course)
+        course.notify()
 
     def clone_course(self, course: Course):
         new_course = course.clone()
@@ -46,3 +50,6 @@ class TrainingSite:
         category = CategoryCourse(name)
         self.cat_mapper.insert(category)
         self.categories_courses.append(self.cat_mapper.find_by_name(category.name))
+
+    def add_student_course(self, student: User, course: Course):
+        self.sc_mapper.add_student_course(student, course)

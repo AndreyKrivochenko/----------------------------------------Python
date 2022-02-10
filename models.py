@@ -1,5 +1,5 @@
 from patterns.iterator import StudentCourseIterator
-from reusepatterns.prototypes import PrototypeMixin
+from patterns.prototypes import PrototypeMixin
 from collections.abc import Iterable
 from typing import Any, List
 
@@ -83,16 +83,6 @@ class Course(PrototypeMixin, Iterable):
     def __iter__(self) -> StudentCourseIterator:
         return StudentCourseIterator(self.students)
 
-    def update_course(self, **kwargs):
-        if kwargs.get('new_name'):
-            self.name = kwargs.get('new_name')
-        if kwargs.get('new_text'):
-            self.description = kwargs.get('new_text')
-        if kwargs.get('student'):
-            self.students.append(kwargs.get('student'))
-        self._notify()
-        return self
-
     def attach(self, observer: User) -> None:
         observer._subject = self
         self._observers.add(observer)
@@ -101,7 +91,7 @@ class Course(PrototypeMixin, Iterable):
         observer._subject = None
         self._observers.discard(observer)
 
-    def _notify(self) -> None:
+    def notify(self) -> None:
         for observer in self._observers:
             observer.update(self)
 
@@ -111,21 +101,11 @@ class InteractiveCourse(Course):
         Course.__init__(self, category_id, name, description, address, url, course_id)
         self.type = 'interactive'
 
-    def update_course(self, **kwargs):
-        super(InteractiveCourse, self).update_course(**kwargs)
-        self.url = kwargs.get('new_url')
-        return self
-
 
 class RecordCourse(Course):
     def __init__(self, category_id, name, description, address: str, url: str, course_id: int):
         Course.__init__(self, category_id, name, description, address, url, course_id)
         self.type = 'record'
-
-    def update_course(self, **kwargs):
-        super(RecordCourse, self).update_course(**kwargs)
-        self.address = kwargs.get('new_address')
-        return self
 
 
 class CourseFactory:

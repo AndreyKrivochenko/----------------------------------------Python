@@ -1,1 +1,6 @@
 2022-02-07 00:01:53.502508 | log[update_log]---> Update course Javascript pro
+2022-02-10 12:13:56.196914 | log[update_log]---> Update course Python for beginner
+2022-02-10 12:34:19.697973 | log[update_log]---> Update course Python for beginner
+2022-02-10 12:34:57.214490 | log[update_log]---> Update course Python for beginner
+2022-02-10 12:35:23.271491 | log[update_log]---> Update course Java for beginner
+2022-02-10 12:47:28.328006 | log[update_log]---> Update course Python for profy

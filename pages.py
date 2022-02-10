@@ -7,7 +7,7 @@ from framework.decorators import Debug
 from logging_mod import Logger
 from model_site import TrainingSite
 
-connection = sqlite3.connect('site_db.sqlite')
+connection = sqlite3.connect('site_db.sqlite', check_same_thread=False)
 site = TrainingSite(connection)
 
 create_logger = Logger('create_log')
@@ -62,7 +62,7 @@ class CoursesPage(AllPages):
         course = request.request['POST'].get('course')
         if course:
             for course_ in site.courses:
-                if course == str(course_):
+                if course == course_.__str__():
                     course = course_
             new_data = {}
             for item in request.request['POST']:
@@ -162,17 +162,18 @@ class StudentsPage(AllPages):
     def post(self, request):
         super().post(request)
         data = request.request.get('POST')
-        course = data.get('save_to_course')
-        student = data.get('student')
-        if course and student:
+        course_id = data.get('save_to_course')
+        student_name = data.get('student')
+        course = None
+        student = None
+        if course_id and student_name:
             for course_ in site.courses:
-                if course == str(course_):
+                if course_id == course_.course_id:
                     course = course_
             for student_ in site.students:
-                if student == student_.name:
+                if student_name == student_.name:
                     student = student_
-            site.update_course(course, student=student)
-            site.update_user(student, course=course)
+            site.add_student_course(student, course)
 
 
 @Debug

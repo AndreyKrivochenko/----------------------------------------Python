@@ -3,3 +3,5 @@
 2022-02-10 00:03:44.425647 | log[create_log]---> Create course Python for beginner
 2022-02-10 00:28:52.787731 | log[create_log]---> Created category Java
 2022-02-10 00:29:19.004034 | log[create_log]---> Create course Java for beginner
+2022-02-10 12:46:32.125006 | log[create_log]---> Create course Python for profy
+2022-02-10 12:52:48.061032 | log[create_log]---> Create student Andrey Krivochenko

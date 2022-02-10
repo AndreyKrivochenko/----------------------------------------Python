@@ -46,7 +46,7 @@
                         <select class="form-select" id="courseInput" name="save_to_course">
                             <option selected>Open this select menu</option>
                             {% for course in context.courses %}
-                                <option value="{{ course }}">{{ course.name }}</option>
+                                <option value="{{ course.course_id }}">{{ course.name }}</option>
                             {% endfor %}
                         </select>
                     </div>
