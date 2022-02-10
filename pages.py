@@ -1,5 +1,4 @@
 import json
-import sqlite3
 
 from common import MAIN_MENU
 from framework import Template
@@ -7,8 +6,7 @@ from framework.decorators import Debug
 from logging_mod import Logger
 from model_site import TrainingSite
 
-connection = sqlite3.connect('site_db.sqlite', check_same_thread=False)
-site = TrainingSite(connection)
+site = TrainingSite()
 
 create_logger = Logger('create_log')
 update_logger = Logger('update_log')
@@ -152,17 +150,28 @@ class StudentsPage(AllPages):
 
     def get_context(self, request):
         super().get_context(request)
+        student_name = request.request.get('student')
+        student = None
+        if student_name:
+            for student_ in site.students:
+                if student_name == student_.name:
+                    student = student_
+        courses_list = []
+        if student:
+            courses_list = site.get_all_courses_of_student(student)
         self.context.update({
             'title': 'Students page',
             'students': site.students,
-            'courses': site.courses
+            'courses_of_student': courses_list,
+            'courses': site.courses,
+            'categories': site.categories_courses
         })
         return self.context
 
     def post(self, request):
         super().post(request)
         data = request.request.get('POST')
-        course_id = data.get('save_to_course')
+        course_id = int(data.get('save_to_course'))
         student_name = data.get('student')
         course = None
         student = None

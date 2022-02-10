@@ -1,4 +1,4 @@
-from patterns import FileLoggerHandler, ConsoleLoggerHandler
+from patterns.handler import FileLoggerHandler, ConsoleLoggerHandler
 from patterns.singltones import SingletonByName
 
 

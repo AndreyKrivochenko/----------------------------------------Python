@@ -1,6 +1,9 @@
 import abc
+import sqlite3
 
 from models import CourseFactory, UserFactory, CategoryCourse
+
+connection = sqlite3.connect('site_db.sqlite', check_same_thread=False)
 
 
 class RecordNotFoundException(Exception):
@@ -24,7 +27,7 @@ class DbDeleteException(Exception):
 
 
 class AbstractMapper(abc.ABC):
-    def __init__(self, connection):
+    def __init__(self):
         self.connection = connection
         self.cursor = connection.cursor()
 
@@ -229,7 +232,7 @@ class SqliteCategoryMapper(AbstractMapper):
 
 
 class AbstractStudentCourseMapper(abc.ABC):
-    def __init__(self, connection):
+    def __init__(self):
         self.connection = connection
         self.cursor = connection.cursor()
 
@@ -257,7 +260,7 @@ class SqliteStudentCourseMapper(AbstractStudentCourseMapper):
             raise DbCommitException(e.args)
 
     def find_all_courses_of_student(self, student):
-        statement = "SELECT type, category, name, description, address, url, c.course_id FROM course c LEFT JOIN " \
+        statement = "SELECT type, category_id, name, description, address, url, c.course_id FROM course c LEFT JOIN " \
                     "student_course sc ON c.course_id = sc.course_id WHERE sc.student_id = ? "
         self.cursor.execute(statement, (student.user_id,))
         result = self.cursor.fetchall()

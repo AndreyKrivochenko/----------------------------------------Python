@@ -1,16 +1,17 @@
 from typing import List
 
-from patterns import SqliteStudentMapper, SqliteCourseMapper, SqliteStudentCourseMapper, SqliteCategoryMapper, \
-    SmsNotifier, EmailNotifier
 from models import CategoryCourse, Course, User, UserFactory, CourseFactory
+from patterns.data_mapper import SqliteStudentMapper, SqliteCourseMapper, SqliteStudentCourseMapper, \
+    SqliteCategoryMapper
+from patterns.observer import SmsNotifier, EmailNotifier
 
 
 class TrainingSite:
-    def __init__(self, connection):
-        self.student_mapper = SqliteStudentMapper(connection)
-        self.course_mapper = SqliteCourseMapper(connection)
-        self.sc_mapper = SqliteStudentCourseMapper(connection)
-        self.cat_mapper = SqliteCategoryMapper(connection)
+    def __init__(self):
+        self.student_mapper = SqliteStudentMapper()
+        self.course_mapper = SqliteCourseMapper()
+        self.sc_mapper = SqliteStudentCourseMapper()
+        self.cat_mapper = SqliteCategoryMapper()
         self.students: List[User] = self.student_mapper.get_all()
         self.courses: List[Course] = self.course_mapper.get_all()
         self.categories_courses: List[CategoryCourse] = self.cat_mapper.get_all()
@@ -53,3 +54,6 @@ class TrainingSite:
 
     def add_student_course(self, student: User, course: Course):
         self.sc_mapper.add_student_course(student, course)
+
+    def get_all_courses_of_student(self, student: User):
+        return self.sc_mapper.find_all_courses_of_student(student)

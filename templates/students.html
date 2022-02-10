@@ -29,13 +29,9 @@
             </div>
             <div class="ms-2">
                 <p>Student courses:
-                    {% for student in context.students %}
-                        {% if student.name == request.student %}
-                            {% for course in student.courses %}
-                                <a href="/courses/{{ course.category }}/{{ course.name|replace(' ', '_') }}/">{{ course.name }}</a>
-                                {% if loop.last %}{% else %}, {% endif %}
-                            {% endfor %}
-                        {% endif %}
+                    {% for course in context.courses_of_student %}
+                        <a href="/courses/{% for category in context.categories %}{% if category.category_id == course.category_id %}{{ category.name }}{% endif %}{% endfor %}/{{ course.name|replace(' ', '_') }}/">{{ course.name }}</a>
+                        {% if loop.last %}{% else %}, {% endif %}
                     {% endfor %}
                 </p>
             </div>
