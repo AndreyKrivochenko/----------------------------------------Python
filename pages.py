@@ -1,20 +1,14 @@
 import json
-import pickle
-import os.path
+import sqlite3
 
 from common import MAIN_MENU
 from framework import Template
 from framework.decorators import Debug
 from logging_mod import Logger
-from models import TrainingSite
+from model_site import TrainingSite
 
-db = 'site_db.pkl'
-
-if not os.path.exists(db) or os.stat(db).st_size == 0:
-    site = TrainingSite()
-else:
-    with open('site_db.pkl', 'rb') as f:
-        site = TrainingSite(file=pickle.load(f))
+connection = sqlite3.connect('site_db.sqlite')
+site = TrainingSite(connection)
 
 create_logger = Logger('create_log')
 update_logger = Logger('update_log')
@@ -47,10 +41,15 @@ class CoursesPage(AllPages):
 
     def get_context(self, request):
         super().get_context(request)
+        category = None
+        for cat in site.categories_courses:
+            if cat.name == request.request.get('category'):
+                category = cat
+        courses_list = [item for item in site.courses if item.category_id == category.category_id] if category else []
         self.context.update({
             'title': 'Courses page',
             'categories_courses': site.categories_courses,
-            'courses': site.courses
+            'courses': courses_list
         })
         return self.context
 
@@ -90,7 +89,7 @@ class NewCoursePage(AllPages):
     def post(self, request):
         super().post(request)
         data = request.request.get('POST')
-        site.create_course(data['type'], data['category'], data['name'], data['new_text'])
+        site.create_course(data['type'], int(data['category']), data['name'], data['new_text'])
         create_logger.log(f'Create course {data["name"]}')
         self.template = 'new_course_final.html'
 

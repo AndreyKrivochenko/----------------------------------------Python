@@ -17,7 +17,7 @@
             <select class="form-select mb-3" id="categoryInput" name="category">
                 <option selected>Open this select menu</option>
                 {% for category in context.categories %}
-                    <option value="{{ category }}">{{ category }}</option>
+                    <option value="{{ category.category_id }}">{{ category.name }}</option>
                 {% endfor %}
             </select>
             <div class="mb-3">

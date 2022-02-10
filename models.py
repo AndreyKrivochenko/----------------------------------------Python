@@ -1,28 +1,7 @@
-import abc
-import pickle
-
+from patterns.iterator import StudentCourseIterator
 from reusepatterns.prototypes import PrototypeMixin
-from collections.abc import Iterable, Iterator
+from collections.abc import Iterable
 from typing import Any, List
-
-
-class Observer(metaclass=abc.ABCMeta):
-    def __init__(self):
-        self._subject = None
-
-    @abc.abstractmethod
-    def update(self, arg):
-        pass
-
-
-class SmsNotifier(Observer):
-    def update(self, arg: 'Course'):
-        print(f'Sms notifier for {", ".join(arg)}, course "{arg.name}" changed')
-
-
-class EmailNotifier(Observer):
-    def update(self, arg: 'Course'):
-        print(f'Email notifier for {", ".join(arg)}, course "{arg.name}" changed')
 
 
 class User:
@@ -47,7 +26,7 @@ class Teacher(User):
 
 
 class Student(User):
-    def __init__(self, name: str, email: str, phone: str, user_id: int = None):
+    def __init__(self, name: str, email: str, phone: str, user_id: int):
         super().__init__(name, email, phone, user_id)
         self.courses = []
 
@@ -77,30 +56,22 @@ class UserFactory:
     }
 
     @classmethod
-    def create(cls, type_, name, email, phone, user_id):
+    def create(cls, type_, name, email, phone, user_id=None):
         return cls.types[type_](name, email, phone, user_id)
 
 
-class StudentCourseIterator(Iterator):
-    _position = None
+class CategoryCourse:
+    def __init__(self, name, category_id=None):
+        self.name = name
+        self.category_id = category_id
 
-    def __init__(self, collection: List[Any]):
-        self._collection = collection
-        self._position = 0
-
-    def __next__(self):
-        try:
-            value = self._collection[self._position].name
-            self._position += 1
-        except IndexError:
-            raise StopIteration()
-
-        return value
+    def update(self):
+        pass
 
 
 class Course(PrototypeMixin, Iterable):
-    def __init__(self, category: str, name: str, description: str, address: str, url: str, course_id: int):
-        self.category = category
+    def __init__(self, category_id: int, name: str, description: str, address: str, url: str, course_id: int):
+        self.category_id = category_id
         self.name = name
         self.description = description
         self.address = address
@@ -136,8 +107,8 @@ class Course(PrototypeMixin, Iterable):
 
 
 class InteractiveCourse(Course):
-    def __init__(self, category, name, description, address: str, url: str, course_id: int):
-        Course.__init__(self, category, name, description, address, url, course_id)
+    def __init__(self, category_id, name, description, address: str, url: str, course_id: int):
+        Course.__init__(self, category_id, name, description, address, url, course_id)
         self.type = 'interactive'
 
     def update_course(self, **kwargs):
@@ -147,8 +118,8 @@ class InteractiveCourse(Course):
 
 
 class RecordCourse(Course):
-    def __init__(self, category, name, description, address: str, url: str, course_id: int):
-        Course.__init__(self, category, name, description, address, url, course_id)
+    def __init__(self, category_id, name, description, address: str, url: str, course_id: int):
+        Course.__init__(self, category_id, name, description, address, url, course_id)
         self.type = 'record'
 
     def update_course(self, **kwargs):
@@ -164,64 +135,5 @@ class CourseFactory:
     }
 
     @classmethod
-    def create(cls, type_, category, name, description, address=None, url=None, course_id=None):
-        return cls.types[type_](category, name, description, address, url, course_id)
-
-
-class TrainingSite:
-    def __init__(self, **kwargs):
-        self.teachers: list = kwargs.get('file').get('teachers') if kwargs.get('file') else []
-        self.students = kwargs.get('file').get('students') if kwargs.get('file') else []
-        self.courses = kwargs.get('file').get('courses') if kwargs.get('file') else []
-        self.categories_courses: list = kwargs.get('file').get('categories_courses') if kwargs.get('file') else []
-
-    def __save_site(self):
-        site_ = {
-            'teachers': self.teachers,
-            'students': self.students,
-            'courses': self.courses,
-            'categories_courses': self.categories_courses
-        }
-        with open('site_db.pkl', 'wb') as f:
-            pickle.dump(site_, f, protocol=pickle.HIGHEST_PROTOCOL)
-        return None
-
-    def create_user(self, type_, name, email, phone):
-        user = UserFactory.create(type_, name, email, phone)
-        if type_ == 'student':
-            self.students.append(user)
-        elif type_ == 'teacher':
-            self.teachers.append(user)
-        self.__save_site()
-        return None
-
-    def update_user(self, user: User, **kwargs):
-        user.update_user(**kwargs)
-        self.__save_site()
-        return None
-
-    def create_course(self, type_, category, name, description, **kwargs):
-        course = CourseFactory.create(type_, category, name, description, **kwargs)
-        course.attach(SmsNotifier())
-        course.attach(EmailNotifier())
-        self.courses.append(course)
-        self.__save_site()
-        return None
-
-    def update_course(self, course: Course, **kwargs):
-        course.update_course(**kwargs)
-        self.__save_site()
-        return None
-
-    def clone_course(self, course: Course):
-        new_course = course.clone()
-        new_course.name = f'{new_course.name} Clone'
-        self.courses.append(new_course)
-        self.__save_site()
-        return None
-
-    def create_category(self, name):
-        if name and name not in self.categories_courses:
-            self.categories_courses.append(name)
-            self.__save_site()
-        return None
+    def create(cls, type_, category_id, name, description, address=None, url=None, course_id=None):
+        return cls.types[type_](category_id, name, description, address, url, course_id)

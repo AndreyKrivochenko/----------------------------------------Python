@@ -13,7 +13,7 @@
             <div class="border-bottom">
                 <nav class="nav flex-column">
                     {% for category in context.categories_courses %}
-                        <a class="nav-link" href="/courses/{{ category }}/">{{ category }}</a>
+                        <a class="nav-link" href="/courses/{{ category.name }}/">{{ category.name }}</a>
                     {% endfor %}
                 </nav>
             </div>
@@ -33,10 +33,8 @@
                 <div>
                     <nav class="nav flex-column">
                         {% for course in context.courses %}
-                            {% if course.category == request.category %}
-                                <a class="nav-link"
-                                   href="/courses/{{ request.category }}/{{ course.name|replace(' ', '_') }}/">{{ course.name }}</a>
-                            {% endif %}
+                            <a class="nav-link"
+                               href="/courses/{{ request.category }}/{{ course.name|replace(' ', '_') }}/">{{ course.name }}</a>
                         {% endfor %}
                     </nav>
                 </div>

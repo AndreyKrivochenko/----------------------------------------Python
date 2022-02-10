@@ -1,1 +1,5 @@
 2022-02-07 00:04:01.340508 | log[create_log]---> Create course React for profi
+2022-02-09 23:56:11.890398 | log[create_log]---> Created category Python
+2022-02-10 00:03:44.425647 | log[create_log]---> Create course Python for beginner
+2022-02-10 00:28:52.787731 | log[create_log]---> Created category Java
+2022-02-10 00:29:19.004034 | log[create_log]---> Create course Java for beginner
