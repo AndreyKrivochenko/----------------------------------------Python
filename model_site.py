@@ -1,6 +1,6 @@
 from typing import List
 
-from models import CategoryCourse, Course, User, UserFactory, CourseFactory, Student
+from models import CategoryCourse, Course, User, UserFactory, CourseFactory, Student, Checks
 from patterns.data_mapper import SqliteStudentMapper, SqliteCourseMapper, SqliteStudentCourseMapper, \
     SqliteCategoryMapper
 from patterns.observer import SmsNotifier, EmailNotifier
@@ -105,3 +105,17 @@ class TrainingSite:
 
     def get_all_courses_of_student(self, student: User):
         return self.sc_mapper.find_all_courses_of_student(student)
+
+    @staticmethod
+    def check_input_user(username, email, phone):
+        checker = Checks()
+        if checker.check_username(username) and checker.check_email(email) and checker.check_phone(phone):
+            return True
+        return False
+
+    @staticmethod
+    def check_input_course_url(**kwargs):
+        checker = Checks()
+        if checker.check_url(kwargs.get('new_url')):
+            return True
+        return False

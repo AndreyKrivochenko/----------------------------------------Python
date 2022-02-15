@@ -9,3 +9,5 @@
 2022-02-10 22:04:07.914384 | log[update_log]---> Update course Python for beginner
 2022-02-10 22:09:10.546323 | log[update_log]---> Update course Python for beginner
 2022-02-10 22:13:05.250223 | log[update_log]---> Update course React for beginner
+2022-02-14 12:08:39.294949 | log[update_log]---> Update course Python for profy
+2022-02-14 12:15:44.625446 | log[update_log]---> Update course Python for beginner

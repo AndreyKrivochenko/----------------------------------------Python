@@ -3,7 +3,9 @@ import sqlite3
 
 import models
 
-connection = sqlite3.connect('site_db.sqlite', check_same_thread=False)
+from settings import DATABASE_NAME
+
+connection = sqlite3.connect(DATABASE_NAME, check_same_thread=False)
 
 
 class RecordNotFoundException(Exception):

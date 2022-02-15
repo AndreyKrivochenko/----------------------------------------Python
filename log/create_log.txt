@@ -11,3 +11,4 @@
 2022-02-10 21:28:28.345269 | log[create_log]---> Create student Petr Ivanov
 2022-02-10 22:11:51.551431 | log[create_log]---> Created category React
 2022-02-10 22:12:11.702777 | log[create_log]---> Create course React for beginner
+2022-02-14 11:49:18.514226 | log[create_log]---> Create student Oleg Artemov

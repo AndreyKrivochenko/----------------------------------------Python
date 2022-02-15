@@ -8,6 +8,7 @@ class Application:
         self.fronts = fronts
         self.path = None
 
+    # Явный спагетти код
     def path_processing(self, path: str, request: Request):
         def search_rout(rout_list, path_list):
             if rout_list and path_list:

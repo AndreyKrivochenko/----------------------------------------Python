@@ -66,8 +66,9 @@ class CoursesPage(AllPages):
             for item in request.request['POST']:
                 if item.startswith('new_'):
                     new_data[item] = request.request['POST'].get(item)
-            site.update_course(course, **new_data)
-            update_logger.log(f'Update course {course.name}')
+            if site.check_input_course_url(**new_data):
+                site.update_course(course, **new_data)
+                update_logger.log(f'Update course {course.name}')
 
 
 @Debug
@@ -201,8 +202,9 @@ class CreateStudentPage(AllPages):
     def post(self, request):
         super().post(request)
         data = request.request.get('POST')
-        site.create_user('student', data['name'], data['email'], data['phone'])
-        create_logger.log(f'Create student {data["name"]}')
+        if site.check_input_user(username=data['name'], email=data['email'], phone=data['phone']):
+            site.create_user('student', data['name'], data['email'], data['phone'])
+            create_logger.log(f'Create student {data["name"]}')
         self.template = 'new_course_final.html'
 
 

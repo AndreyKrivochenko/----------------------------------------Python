@@ -1,3 +1,5 @@
+import re
+
 from patterns.iterator import StudentCourseIterator
 from patterns.prototypes import PrototypeMixin
 from collections.abc import Iterable
@@ -100,3 +102,27 @@ class CourseFactory:
     @classmethod
     def create(cls, type_, category_id, name, description, address=None, url=None, course_id=None):
         return cls.types[type_](category_id, name, description, address, url, course_id)
+
+
+class Checks:
+    def __init__(self):
+        self.re_username = r'^[A-Za-z][A-Za-z0-9_\s]{7,29}$'
+        self.re_email = r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
+        self.re_phone = r'^((\+7|7|8)+([0-9]){10})$'
+        self.re_url = r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+
+    def check_username(self, username):
+        match = re.search(self.re_username, username)
+        return True if match else False
+
+    def check_email(self, email):
+        match = re.search(self.re_email, email)
+        return True if match else False
+
+    def check_phone(self, phone):
+        match = re.search(self.re_phone, phone)
+        return True if match else False
+
+    def check_url(self, url):
+        match = re.search(self.re_url, url)
+        return True if match else False
