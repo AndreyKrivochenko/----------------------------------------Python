@@ -5,8 +5,10 @@ from framework import Template
 from framework.decorators import Debug
 from logging_mod import Logger
 from model_site import TrainingSite
+from patterns.decorators import AppRoutes
 
 site = TrainingSite()
+routes: dict = {}
 
 create_logger = Logger('create_log')
 update_logger = Logger('update_log')
@@ -21,6 +23,7 @@ class AllPages(Template):
         return self.context
 
 
+@AppRoutes(routes=routes, urls=['/'])
 @Debug
 class IndexPage(AllPages):
     template = 'index.html'
@@ -33,6 +36,12 @@ class IndexPage(AllPages):
         return self.context
 
 
+@AppRoutes(routes=routes, urls=[
+    '/courses/',
+    '/courses/<slug:category>/',
+    '/courses/<slug:category>/<slug:course>/',
+    '/courses/<slug:category>/<slug:course>/edit/'
+])
 @Debug
 class CoursesPage(AllPages):
     template = 'courses.html'
@@ -71,6 +80,7 @@ class CoursesPage(AllPages):
                 update_logger.log(f'Update course {course.name}')
 
 
+@AppRoutes(routes=routes, urls=['/courses/new/'])
 @Debug
 class NewCoursePage(AllPages):
 
@@ -93,6 +103,7 @@ class NewCoursePage(AllPages):
         self.template = 'new_course_final.html'
 
 
+@AppRoutes(routes=routes, urls=['/courses/copy/'])
 @Debug
 class CopyCoursesPage(AllPages):
     template = 'courses.html'
@@ -116,6 +127,7 @@ class CopyCoursesPage(AllPages):
         site.clone_course(course)
 
 
+@AppRoutes(routes=routes, urls=['/about/'])
 @Debug
 class AboutPage(AllPages):
     template = 'about.html'
@@ -128,6 +140,7 @@ class AboutPage(AllPages):
         return self.context
 
 
+@AppRoutes(routes=routes, urls=['/contact/'])
 @Debug
 class ContactPage(AllPages):
 
@@ -145,6 +158,7 @@ class ContactPage(AllPages):
         self.template = 'contact_final.html'
 
 
+@AppRoutes(routes=routes, urls=['/students/', '/students/<slug:student>/'])
 @Debug
 class StudentsPage(AllPages):
     template = 'students.html'
@@ -186,6 +200,7 @@ class StudentsPage(AllPages):
             site.add_student_course(student, course)
 
 
+@AppRoutes(routes=routes, urls=['/students/new/'])
 @Debug
 class CreateStudentPage(AllPages):
 
@@ -208,6 +223,7 @@ class CreateStudentPage(AllPages):
         self.template = 'new_course_final.html'
 
 
+@AppRoutes(routes=routes, urls=['/api/courses/'])
 class CoursesApi(AllPages):
     def get_json_file(self, request):
         result = []

@@ -1,6 +1,5 @@
 from framework import OtherFront, SecretFront, Application
-from urls import routes
-
+from pages import routes
 
 fronts = [SecretFront(), OtherFront()]
 
